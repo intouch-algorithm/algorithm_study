@@ -1,32 +1,32 @@
-class Lv2_ {
+import java.util.*;
+class Solution {
     public int[] solution(int n, String[] words) {
-        int[] answer = {0, 0};
-        String[] tmp = new String[words.length];
-        tmp[0] = words[0];
-        for (int i=1;i<words.length;i++) {
-            System.out.println(words[i-1].charAt(words[i-1].length()-1)+ ", " + words[i].charAt(0));
-            if (words[i-1].charAt(words[i-1].length()-1)!=words[i].charAt(0)) {
-                answer[0] = i/n+1;
-                answer[1] = i/n+1;
-                return answer;
+        int[] answer = new int[2];
+        List<String> list = new ArrayList<String>();
+        boolean flag = true;
+        
+        for(int i=0; i<words.length; i++){
+            if(list.contains(words[i])){   // 이전에 등장한 단어인경우
+                answer[0] = (i%n) + 1;
+                answer[1] = (i/n) + 1;
+                flag = false;
+                break;
             }
-            for (int j=0;j<tmp.length;j++) {
-                if (words[i].equals(tmp[j])) {
-                    answer[0] = i/n+1;
-                    answer[1] = i/n+1;
-                    return answer;
-                }
+            
+            list.add(words[i]); // 현재 단어 리스트에 넣기
+            
+            // 이전 끝단어와 현재 첫단어가 다른경우 - 끝말잇기가 아닌경우
+            if(i>0 && words[i-1].charAt(words[i-1].length()-1) != words[i].charAt(0)){
+                answer[0] = (i%n) + 1;
+                answer[1] = (i/n) + 1;
+                flag = false;
+                break;
             }
-            tmp[i] = words[i];
         }
+        if(flag) return new int[]{0, 0};
         return answer;
     }
-    public static void main(String[] args) {
-        Lv2_ sol = new Lv2_();
-        String[] arr = {"hello", "one", "even", "never", "now", "world", "draw"};
-        int[] res = sol.solution(2, arr);
-        System.out.println(res[0]+","+res[1]);
-
-	}
-
 }
+
+//패인 포인트
+//알고리즘은 알았으나 자바 구현 실력 부족.
